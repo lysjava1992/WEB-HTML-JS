@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<div>
+
+			<div id="app">
+				<!--相当于站位-->
+				{{message}}
+			</div>
+
+			<div id="app2">
+				<span v-bind:title=message>
+					鼠标悬停查看动态绑定的提示内容!
+				</span>
+			</div>
+
+			<div id="app3">
+				<p v-if="seen">内容显示与隐藏(if)</p>
+			</div>
+
+			<div id="app4">
+				<ol>
+					<li v-for="todo in todos">
+						{{todo.text}}
+					</li>
+				</ol>
+			</div>
+
+			<div id="app5">
+				<p>{{message}}</p>
+				<button v-on:click="dealMessage">按钮</button>
+			</div>
+
+			<div id="app6">
+				<p>{{message}}</p>
+				<input v-model="message" />
+			</div>
+
+
+		</div>
+
+
+
+		<div id='app7'>
+			<ol>
+				<!-- 创建一个 todo-item 组件的实例 -->
+				<todo-item></todo-item>
+				<todo-item></todo-item>
+				<todo-item></todo-item>
+				<todo-item></todo-item>
+			</ol>
+		</div>
+
+		<div id='app8'>
+			<ol>
+		<!--
+      为每个 todo-item 提供 todo 对象
+      todo 对象是变量，即其内容可以是动态的。
+	   --> 
+				<todo-item2 v-for="item in list"
+				           v-bind:todo="item"
+						   v-bind:key="item.id"></todo-item2>
+			
+			</ol>
+		</div>
+
+		<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+		<script>
+			<!--通过改变 app.message 的值来改变 div的内容-->
+			var app = new Vue({
+				el: '#app',
+				data: {
+					message: 'Hello Vue !'
+				}
+			})
+
+			<!--以 v- 开头是Vue的特殊属性;将title的值与vue的message绑定 -->
+			var app2 = new Vue({
+				el: '#app2',
+				data: {
+					message: '当前时间' + new Date().toLocaleString()
+				}
+			})
+
+			<!--条件语句-->
+			var app3 = new Vue({
+				el: '#app3',
+				data: {
+					seen: false
+				}
+			})
+
+			<!--循环语句-->
+			var app4 = new Vue({
+				el: "#app4",
+				data: {
+					todos: [{
+							id: 1,
+							text: 'Vue 第一列'
+						},
+						{
+							id: 2,
+							text: 'Vue 第二列'
+						},
+						{
+							id: 3,
+							text: 'Vue 第三列'
+						}
+					]
+				}
+			})
+
+			<!--按钮事件-->
+			var app5 = new Vue({
+				el: '#app5',
+				data: {
+					message: '未处理信息'
+				},
+				methods: {
+					dealMessage: function() {
+						this.message = '处理过的信息'
+					}
+				}
+			})
+			<!--input-->
+			var app6 = new Vue({
+				el: '#app6',
+				data: {
+					message: 'Hello Vue   '
+				}
+			})
+		</script>
+
+		<script>
+			Vue.component('todo-item', {
+				template: '<li>这是个待办项</li>',
+			})
+			var app7 = new Vue({
+				el: '#app7'
+			})
+			
+			Vue.component('todo-item2',{
+				props:['todo'],
+				template:'<li>{{todo.text}}</li>'
+			})
+			var app8=new Vue({
+				el:'#app8',
+				data:{
+					list:[
+						{id:0,text:'第一行'},
+						{id:1,text:'第二行'},
+						{id:2,text:'第三行'},
+						{id:3,text:'第四行'}
+					]
+				}
+			})
+		</script>
+	</body>
+</html>

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<div id="app1">
+			<p v-text="text"></p>
+		</div>
+		
+		<div id="app2">
+			<p v-text="text"></p>
+			<input type="text" readonly="readonly" v-model="id"/>
+		</div>
+		
+		<div id="app3">
+			<p>{{message}}</p>
+
+		</div>
+		
+		
+		<div id="app4">
+			<p v-once>{{message}}</p>
+			<p>{{message}}</p>
+			 <input type="text" v-model="message"/> 
+		</div>
+		
+		<div id="app5">
+		<a v-bind:[typeone]="url">  链接网址 </a>
+		<a v-on:[typetwo]="doSomething" href="www.baidu.com"> 链接网址 </a>	
+		</div>
+
+		<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+		<script type="text/javascript">
+			
+			//   可以直接修改 app1_data=
+			//   也可以app1_data.text=
+			//   还有 app1.text=
+			//   app1_data.text=app1.text
+		
+			var app1_data={text:"自定义内容"};
+			var app1=new Vue({
+				el:'#app1',
+				data:app1_data
+			})
+			
+			// 对于data中的值,不存在的key不能动态赋值 
+			// 即只能对初始化时声明了的key进行操作
+			var app2_data={text:"默认值",id:"0"}
+			var app2_data=new Vue({
+				el:'#app2',
+				data:app2_data
+			})
+			
+			
+			var app3_data={message:'不能修改'};
+			//在此处锁定就不能再动态修改messaged的值
+			//Object.freeze() 必须在此处 
+			Object.freeze(app3_data);
+			var app3=new Vue({
+				el:"#app3",
+				data:app3_data
+			});
+		  // 在此处Object.freeze(app3_data); 锁定无用
+		  
+		  var app4=new Vue({
+			  el:"#app4",
+			  data:{
+				  message:""
+			  }
+		  })
+		  //回调函数
+		  app4.$watch('message', function (newValue, oldValue) {
+		     console.log("新值："+newValue);
+			 console.log("旧值："+oldValue)
+		  })
+		
+		
+		
+		   var app5=new Vue({
+			   el:'#app5',
+			   data:{
+				   typeone: "href",
+				   typetwo: "focus",
+				   url:'www.baidu.com'
+			   },
+			   methods:{
+				   doSomething: function(){
+					   alert(this);
+				   }
+			   }
+			
+		   })
+		
+		
+		</script>
+	</body>
+</html>
