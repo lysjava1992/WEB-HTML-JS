@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<div id="app" >
+			<component-button></component-button>
+		</div>
+		<div id="app2" >
+			<component-button></component-button>
+			<component-button></component-button>
+			<component-button></component-button>
+		</div>
+	    
+		<div id='app3'>
+			<component-blog-post  v-for="post in posts"
+                                  v-bind:key="post.id"
+                                  v-bind:title="post.title">
+            </component-blog-post>
+		</div>
+		
+		<div id='app4'>
+			 <div :style="{ fontSize: postFontSize + 'px' }">
+			<component-blog-post2  v-for="post in posts"
+		                          v-bind:key="post.id"
+								  v-bind:title="post.title"
+		                          v-bind:content="post.html"
+								 v-on:enlarge-text="postFontSize += 1">
+		    </component-blog-post2>
+			</div>
+		</div>
+		
+			<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+			<script>
+				Vue.component('component-button',{
+					data:function(){
+						return {
+							count:0
+						}
+					},
+					template:'<button @click=" count++ ">加一 当前值{{count}}</button>'
+				})
+				var app=new Vue({
+					el:'#app',
+				})
+				var app2=new Vue({
+					el:'#app2',
+				})
+	
+	           Vue.component('component-blog-post',{
+				   props:['title'],
+				   template:'<h3>{{title}}</h3>'
+			   })
+			   var app3=new Vue({
+				   el:'#app3',
+			       data:{
+					   posts:[
+						   {id:1,title:'Vue简介'},
+						   {id:2,title:'Vue组件'},
+						   {id:3,title:'Vue路由机制'}
+					   ]
+				   }   
+			       })
+				   
+				   Vue.component('component-blog-post2',{
+					   props:['title','content'],
+					   // $emit函数 触发 指定enlarge-text方法
+					   template:' <div class="post"><h3>{{title}}</h3> <div v-html="content"></div><button @click="$emit(`enlarge-text`)">放大字体</button></div> '
+				   })
+				var app4=new Vue({
+					el:'#app4',
+					data:{
+						posts:[
+							{id:1,title:'Vue简介',html:'<p>内容1<p><p>内容2<p>'},
+							{id:2,title:'Vue组件',html:'<p>内容1<p><p>内容2<p>'},
+							{id:3,title:'Vue路由机制',html:'<p>内容1<p><p>内容2<p>'}
+						],
+						postFontSize: 10
+					}
+				})   
+			</script>
+	</body>
+</html>

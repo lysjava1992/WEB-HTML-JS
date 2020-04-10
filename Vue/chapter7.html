@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<ul id="app">
+			<li v-for="(item, index) in items">
+				{{index}}--{{item.message}}--{{parentMessage}}
+			</li>
+		</ul>
+		
+		<ul id="app2">
+			<li v-for="(key ,value ) in obj">
+				{{key}}————————{{value}}
+			</li>
+		</ul>
+		<ul id="app3">
+			<li v-for="item of itemsMethod">
+				{{item.text}}
+			</li>
+		</ul>
+		
+	<div id="app4">
+      <template v-for="num in 10">
+		  <p>{{num}}<p>
+	  </template>
+	</div>
+	
+	<div id="todo-list-example">
+	  <form v-on:submit.prevent="addNewTodo">
+	    <label for="new-todo">添加条目</label>
+	    <input
+	      v-model="newTodoText"
+	      id="new-todo"
+	      placeholder="....">
+	    <button>添加</button>
+	  </form>
+	  <ul>
+	    <li
+	      is="todo-item"
+	      v-for="(todo, index) in todos"
+	      v-bind:key="todo.id"
+	      v-bind:title="todo.title"
+	      v-on:remove="todos.splice(index, 1)"
+	    ></li>
+	  </ul>
+	</div>
+			<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+			<script>
+				
+	var app=new Vue({
+					el:'#app',
+					data:{
+				       parentMessage:'公共信息',
+					   items:[
+						 { message: '第一项'},
+						 { message: '第二项'},
+						 { message: '第三项'},
+						 { message: '第四项'},
+						 { message: '第五项'}
+					   ]
+					}
+				})
+	
+	var app2=new Vue({
+		el:'#app2',
+		data:{
+		   obj:{
+			 name: '账单',
+			 ID: '1000001026',
+			 '交易额': 1562.5,
+			 '签名': 'Tom',
+			 time: new Date().toLocaleTimeString(),
+		   }
+		}
+	})
+	var app3=new Vue({
+		el:'#app3',
+		data:{
+			items:[
+				 { text: '第一项'},
+				 { text: '第二项'},
+				 { text: '第三项'},
+				 { text: '第四项'},
+				 { text: '第五项'}
+			]
+		},
+		computed:{
+			itemsMethod: function(){	
+				//过滤函数
+				return this.items.filter(function (item) {
+			         
+                  return   !(item.text=='第四项');
+             });
+			}
+		}
+	})
+	var app4=new Vue({el:'#app4'})
+		
+	Vue.component('todo-item', {
+		  template: '\
+		    <li>\
+		      {{ title }}\
+		      <button v-on:click="$emit(\'remove\')">删除</button>\
+		    </li>\
+		  ',
+		  props: ['title']
+	})
+		
+		new Vue({
+		  el: '#todo-list-example',
+		  data: {
+		    newTodoText: '',
+		    todos: [
+		      {
+		        id: 1,
+		        title: '条目1',
+		      },
+		      {
+		        id: 2,
+		        title: '条目2',
+		      },
+		      {
+		        id: 3,
+		        title: '条目3'
+		      }
+		    ],
+		    nextTodoId: 4
+		  },
+		  methods: {
+		    addNewTodo: function () {
+		      this.todos.push({
+		        id: this.nextTodoId++,
+		        title: this.newTodoText
+		      })
+		      this.newTodoText = ''
+		    }
+		  }
+		})
+			</script>
+	</body>
+</html>

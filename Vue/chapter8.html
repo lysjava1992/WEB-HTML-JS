@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<div id="app" >
+			<p>当前值：{{counter}}</p>
+			<button type="button" @click="counter +=1">加一</button>
+		</div>
+		
+		
+	<div id="app2" >
+		 <button v-on:click="greet">欢迎</button>
+	</div>
+	
+	<div id="app3" >
+		 <button v-on:click="warn('信息:',$event)">事件</button>
+	</div>
+	
+	<div id="app4" v-on:click.capture="doThisBefore">
+		 <button @click.stop.once="doThis">事件传播</button>
+	</div>
+	
+	<div id="app5">
+		<!-- Alt + C -->
+		<input v-on:keyup.alt.67="clear">
+		
+		<!-- Ctrl + Click -->
+		<div v-on:click.ctrl="doSomething">Do something</div>
+	</div>
+	
+			<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+			<script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
+			
+			<script>
+				var app=new Vue({
+					el:'#app',
+					data:{
+				     counter:0
+					}
+				})
+	           
+			 var app2 = new Vue({
+			   el: '#app2',
+			   data: {
+			     name: 'Vue.js'
+			   },
+			   methods: {
+			     greet: function (event) {
+			       // `this` 在方法里指向当前 Vue 实例
+			       alert('Hello ' + this.name + '!')
+			       if (event) {
+			         alert(event.target.tagName)
+			       }
+			     }
+			   }
+			 })
+			// app2.greet() 
+			 var app3=new Vue({
+				 el:'#app3',
+				 methods:{
+					 warn:function(msg,event){
+						 console.log(msg+event)
+						 if(event){
+							 event.preventDefault();
+						 }
+						 alert(msg);
+					 }
+				 }
+			 })
+			 
+			 var app4=new Vue({
+				 el:'#app4',
+				 methods:{
+					 doThisBefore:function(){
+						 console.log("doThisBefore----------------"); 
+					 },
+					 doThis:function(){
+						 console.log("doThis----------------");
+					 }
+				 }
+			 })
+			 $(function(){
+				 $("#app4").click(function(){
+					 console.log("事件传播性")
+				 })
+			 })
+			 
+			 var app5=new Vue({
+				 el:'#app5',
+				 methods:{
+					 clear:function(){
+						 console.log("清空------------")
+					 },
+					 doSomething:function(){
+						 console.log("doSomething.....")
+					 }
+				 }
+			 })
+			</script>
+	</body>
+</html>

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<style>
+		.active{
+			background-color: aqua;
+		}
+		.text-danger {
+			color: red;
+		}
+	</style>
+	<body>
+		<div id="app">
+			<p v-bind:class="{active: pIsActive}">vue绑定class</p>
+		</div>
+		
+		<div id="app2">
+			<p v-bind:class="{ active: isActive, 'text-danger': hasError }">vue绑定多个class</p>
+		</div>
+
+    	<div id="app3">
+			<p v-bind:class="objClass">vue绑定多个class对象写法</p>
+		</div>
+		
+       <div id="app4">
+			<p v-bind:class="[isActive,hasError]">vue绑定class——数组写法</p>
+		</div>
+		
+		<div id="app5">
+			<!--isActive代表的calss是否是 'activeClass'-->
+			<p v-bind:class="[isActive? 'active':'',hasError]">vue绑定class——数组写法</p>
+		</div>
+		
+		<div id="app6">
+			<!--混合写法  active代表的是class -->
+			<p v-bind:class="[{active:isActive},errorClass]">vue绑定class——数组写法</p>
+		</div>
+		
+		<div id="app7">
+			<component1 class="active"></component1>
+		</div>
+		
+		
+		
+		
+		
+		
+			<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+			
+			<script>
+				///////////////////对象写法////////////////////
+				var app=new Vue({
+					el:'#app',
+					data:{
+						pIsActive:true
+					}
+				});
+				var app2=new Vue({
+					el:'#app2',
+					data:{
+						isActive:true,
+						hasError:true
+					}
+				});
+				var app3=new Vue({
+					el:'#app3',
+					data:{
+						objClass:{
+							active:true,
+							'text-danger':true
+						}
+					}
+				});
+				
+				/////////////////数组写法//////////////////
+				var app4=new Vue({
+					el:'#app4',
+					data:{
+						isActive:'active',
+						hasError:'text-danger'
+					}
+				});
+				
+				var app5=new Vue({
+					el:'#app5',
+					data:{
+						isActive:'active',
+						hasError:'text-danger'
+					}
+				});
+				
+				var app6=new Vue({
+					el:'#app6',
+					data:{
+						isActive:true,
+						errorClass:'text-danger'
+					}
+				});
+				
+			
+			////////先声明组件，再初始化vue///////
+				Vue.component('component1',{
+					template:'<p class="text-danger">组件模式的Class</p>'
+				})
+					var app7=new Vue({el:'#app7'});
+					
+			</script>
+	</body>
+</html>

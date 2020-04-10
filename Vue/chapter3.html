@@ -174,6 +174,7 @@
 						var vm=this
 						axios.get('https://yesno.wtf/api')
 						     .then(function(response){
+								 //_.capitalize()字符串首位大写
 								 vm.answer=_.capitalize(response.data.answer)
 							 })
 							 .catch(function(error){

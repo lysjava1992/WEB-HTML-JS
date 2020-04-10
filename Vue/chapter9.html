@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<div id="app">
+			<p style="white-space: pre-line;">{{ text }}</p>
+			<br>
+			<textarea v-model="text"></textarea>
+		</div>
+
+		<div id='app2'>
+			<input type="checkbox" id="jack" value="Jack" v-model="checkedNames">
+			<label for="jack">Jack</label>
+			<input type="checkbox" id="john" value="John" v-model="checkedNames">
+			<label for="john">John</label>
+			<input type="checkbox" id="mike" value="Mike" v-model="checkedNames">
+			<label for="mike">Mike</label>
+			<br>
+			<span>选择: {{ checkedNames }}</span>
+		</div>
+
+		<div id="app3">
+			<input type="radio" id="one" value="One" v-model="picked">
+			<label for="one">One</label>
+			<br>
+			<input type="radio" id="two" value="Two" v-model="picked">
+			<label for="two">Two</label>
+			<br>
+			<input type="radio" id="three" value="Three" v-model="picked">
+			<label for="three">Three</label>
+			<br>
+			<span>Picked: {{ picked }}</span>
+		</div>
+
+		<div id="app4">
+			<label id="select1">单选</label>
+			<select id="select1" v-model="selected">
+				<option disabled value="">请选择</option>
+				<option>A</option>
+				<option>B</option>
+				<option>C</option>
+				<option>D</option>
+			</select>
+			<p>选择：{{selected}}</p>
+		</div>
+
+		<div id="app5">
+			<label id="select1">多选</label>
+			<select id="select1" multiple style="width: 50px;" v-model="selecteds">
+				<option disabled value="">请选择</option>
+				<option>A</option>
+				<option>B</option>
+				<option>C</option>
+				<option>D</option>
+			</select>
+			<p>已选择：{{selecteds}}</p>
+		</div>
+
+		<div id='app6'> 
+		  <select v-model="selecteds">
+				<option v-for="option in options" v-bind:value="option.value">
+					{{ option.text }}
+				</option>
+			</select>
+			<p>已选择：{{selecteds}}</p>
+		</div>
+
+         <div id='app7'>
+			 <p>{{message1}}</p>
+			 <input v-model.lazy="message1" />
+			 <!--如果想自动将用户的输入值转为数值类型-->
+			 <p>{{message2*10}}</p>
+			 <input v-model.number="message2" type="number" >
+			 <!--自动过滤用户输入的首尾空白字符-->
+			 <p>{{message3}}</p>
+			 <input v-model.trim="message3">
+		 </div>
+
+		<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+		<script>
+			var app = new Vue({
+				el: '#app',
+				data: {
+					text: '文本信息'
+				}
+			})
+			var app2 = new Vue({
+				el: '#app2',
+				data: {
+					checkedNames: ["John"]
+				}
+			})
+			var app3 = new Vue({
+				el: '#app3',
+				data: {
+					picked: 'One'
+				}
+			})
+			var app4 = new Vue({
+				el: '#app4',
+				data: {
+					selected: ''
+				}
+			})
+			var app5 = new Vue({
+				el: '#app5',
+				data: {
+					selecteds: []
+				}
+			})
+			var app6 = new Vue({
+				el: '#app6',
+				data: {
+					selecteds: [],
+					options:[
+						 { text: 'One', value: 'A' },
+						 { text: 'Two', value: 'B' },
+						 { text: 'Three', value: 'C' }
+					]
+				}
+			})
+			var app7=new Vue({
+				el:'#app7',
+				data:{
+					message1:'懒加载',
+					message2:15,
+					message3:'空  格  '
+				}
+			})
+		</script>
+	</body>
+</html>

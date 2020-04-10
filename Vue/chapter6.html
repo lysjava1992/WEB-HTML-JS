@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<div id="app">
+			<h1 v-if="awesome">标题一
+			</h1>
+		</div>
+
+		<div id="app1">
+			<h1 v-if="awesome">标题IF</h1>
+			<h1 v-else>标题ELSE</h1>
+		</div>
+		
+		<div id="app2">
+			<div v-if="Math.random() > 0.5">
+				Now you see me
+			</div>
+			<div v-else>
+				Now you don't
+			</div>
+		</div>
+		
+		
+		
+		
+		<div id="app3">
+		    <div v-if="type==='A'"  v-bind:style="calssA" >A</div>
+			<div v-else-if="type==='B'" v-bind:style="calssB">B</div>
+			<div v-else-if="type==='C'" v-bind:style="calssC">C</div>
+			<template v-else>
+					<div  v-bind:style="calssO">{{type}}</div>
+					<div  v-bind:style="calssO">多个组件用template来包裹</div>
+			</template>
+		
+			<input v-model="type" type="text"/>
+		</div>
+		
+		<form id="app4" method="post" action="/form">	
+			<template v-if="loginType === 'username'">
+			  <label>用户名登录</label>
+			  <input placeholder="Enter your username" key="username-input" name="username">
+			</template>
+			<template v-else>
+			  <label>Email登录</label>
+			  <input placeholder="Enter your email address" key="email-input" name="email">
+			</template>
+			<label>密码</label>
+			<input placeholder="Enter your password"  name="password">
+			<input type="button" value="切换登录方式" @click="changeType"/>
+			<input type="submit" value="提交"/>
+		</form>
+		
+		<div id="app5">
+			<h1 v-show="ok">Hello!</h1>
+		</div>
+		<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+		<script>
+			var app = new Vue({
+				el: '#app',
+				data: {
+                  awesome:true
+				}
+			})
+			
+			var app1 = new Vue({
+				el: '#app1',
+				data: {
+			      awesome:false
+				}
+			})
+			var app2=new Vue({el:'#app2'});
+			
+			var app3=new Vue({
+				el:'#app3',
+				data:{
+					type:'A',
+					calssA:{color:'red',fontSize:'6px'},
+					calssB:{color:'brown',fontSize:'16px'},
+					calssC:{color:'green',fontSize:'26px'},
+					calssO:{color:'red',fontSize:'36px'}
+				},
+				watch:{
+					type: function(newValue,oldValue){
+						console.log(newValue==='A')
+					}
+				}
+			})
+			
+			var app4=new Vue({
+				el:'#app4',
+				data:{
+					loginType:'username'
+				},
+				methods:{
+					changeType:function(){
+						if(this.loginType==='username'){
+							this.loginType='1'
+						}else{
+							this.loginType='username'
+						}
+					}
+				}
+			})
+			var app5=new Vue({
+				el:'#app5',
+				data:{
+					ok:true
+				}
+				})
+		</script>
+	</body>
+</html>
