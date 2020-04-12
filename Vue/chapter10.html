@@ -32,6 +32,14 @@
 			</div>
 		</div>
 		
+		<div id='app5'>
+			<component-input v-model="value"></component-input>
+		
+		</div>
+		
+	    <div id='app6'>
+			<alert-box></alert-box>
+		</div>
 			<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 			<script>
 				Vue.component('component-button',{
@@ -80,6 +88,36 @@
 						postFontSize: 10
 					}
 				})   
+				/////////////////////inout传值//////////////////////
+				Vue.component('component-input',{
+					props:['value'],
+					template: `
+    <input
+      v-bind:value="value"
+      v-on:input="$emit('input', $event.target.value)"
+    >
+  `
+				})
+				var app5=new Vue({
+					el:'#app5',
+					data:{
+						value:'12'
+					}
+				})
+				
+				
+				
+				Vue.component('alert-box', {
+				  template: `
+				    <div class="demo-alert-box">
+				      <strong>Error!</strong>
+				      <slot></slot>
+				    </div>
+				  `
+				})
+				var app6=new Vue({
+					el:'#app6'
+				})
 			</script>
 	</body>
 </html>

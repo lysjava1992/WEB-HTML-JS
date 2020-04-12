@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<div>
+
+			<div id="app">
+               <blog-post post-title="hello"></blog-post>
+			</div>
+
+
+              <div id="app2">
+                 <blog-post-2 v-bind:comment-ids="[234, 266, 273]"></blog-post-2>
+              </div>
+
+             <div id="app3">
+                 <blog-post-3 v-bind:posts="posts"  v-on:ok-clicks="collect"></blog-post-3>
+              </div>
+ 
+ 
+            <div id="app4">
+                 <componet-1 v-bind:counters="initial" ></componet-1>
+              </div>
+ 
+
+            <div id="app5">
+                 <componet-2 v-bind:counters="initial" ></componet-2>
+             </div>
+			 
+			 
+		
+      	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+		<script>
+			Vue.component('blog-post', {
+			  // 在 JavaScript 中是 camelCase 的
+			  props: ['postTitle'],
+			  template: '<h3>{{ postTitle }}</h3>'
+			})
+			var app = new Vue({
+				el: '#app',
+			})
+
+
+            Vue.component('blog-post-2',{
+				props:['commentIds'],
+				template:
+				     `
+					 <ol>
+					 	<li v-for="id in commentIds">
+					 		{{id}}
+					 	</li>
+					 </ol>
+				       
+					   `
+			})
+           new Vue({el:'#app2'})
+		   
+		   Vue.component('blog-post-3',{
+			     props:['posts'],
+				 template:  
+				  `<div>
+				   <div v-for="post in posts">
+				      <h3>{{post.title}}</h3>
+					  <p >作者：{{post.author}}</p>
+					 <p>浏览量{{post.read}}</p>
+					 <p>点赞量{{post.ok}} </p>
+					  <div class="content">
+					    {{post.content}}
+					  </div>
+					<button  @click="post.ok += 1">点赞</button>
+					<button  @click="childClick(post)">收藏</button>
+				   </div>
+				 </div>
+				  `,
+				methods: {
+				      childClick (data) {
+				
+				        this.$emit('ok-clicks',data)
+				      }
+				    }
+		   })
+		   new Vue({
+			   el:'#app3',
+			   data:{
+				   posts:[
+					   {id:1,
+					   title:'文章标题1',
+					   author:'张1',
+					   read:10,
+					   ok:5,
+					   content:'文章内容。。。。。。。。。。。'},
+					   
+					   {id:2,
+						title:'文章标题2',
+					   author:'张2',
+					   read:10,
+					   ok:5,
+					   content:'文章内容。。。。。。。。。。。'},
+					   
+						{id:3,
+						title:'文章标题3',
+						author:'张3',
+						read:10,
+						ok:5,
+						content:'文章内容。。。。。。。。。。。'},
+						
+						{id:4,
+						title:'文章标题4',
+						author:'张4',
+						read:10,
+						ok:5,
+						content:'文章内容。。。。。。。。。。。'},
+				   ]
+			   },
+			   methods:{
+				   collect:function(data){
+					   console.log(data)
+					   alert("收藏OK！");
+				   }
+			   }
+		
+		   })
+		   
+		   
+		   Vue.component('componet-1',{
+			   props:['counters'],
+			   template:' <h3>{{counters}}</h3>',
+			  //  template:'<input v-model="counters"/>',
+			   
+		   })
+		  var app4=new Vue({
+			   el:'#app4',
+			   data:{
+				   initial:0
+			   }
+		   })
+		   Vue.component('componet-2',{
+		   			   props:['counters'],
+					   data: function () {
+					     return {
+					       counter: this.counters
+					     }
+						 },
+		   			   template:' <input v-model="counter"/>',
+		   			   
+		    })
+		   var app5=new Vue({
+		   			   el:'#app5',
+		   			   data:{
+		   				   initial:0
+		   			   }
+		    })
+			
+
+			
+		</script>
+	</body>
+</html>

@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+
+			<div id="app">
+              <base-checkbox v-model="lovingVue"></base-checkbox>
+			</div>
+
+
+
+	       <div id="app2">
+              <base-input v-on:focus.native="onFoucus" 
+			              v-model='value_data'
+			                ></base-input>
+			</div>
+			
+			
+			<div id="app3">
+			   <base-input-2 @focus="onFoucus" 
+			                 v-model='value_data'
+							 v-bind:label="label"  ></base-input-2>
+			</div>
+					
+			<div id="app4">
+				<div >
+					{{content}}
+				</div>
+			   <input type="text"  v-model="content" />
+			   <base-input-3 v-bind:content.sync="content"  ></base-input-3>
+			</div>			
+			
+		<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+		<script>
+			
+			Vue.component('base-checkbox',{
+				model:{
+					prop:'checked',
+					event:'change'
+				},
+				props:{
+					checked:Boolean
+				},
+				template: `
+				   <input 
+				       type="checkbox"
+					   v-bind:checked="checked"
+					   v-on:change="$emit('change',$event.target.checked)">
+				          `
+			})
+			var app = new Vue({
+				el: '#app',
+				data:{
+					lovingVue:true
+				}
+			})
+
+		Vue.component('base-input',{
+			    model:{
+					prop:'value',
+					event:'change'
+				},
+				props:['value'],
+				template: `
+				   <input 
+				       type="text"
+					   v-bind:value="value"
+					   v-on:change="$emit('change',$event.target.value)">
+				          `
+			})
+           var app2=new Vue({
+			   el:'#app2',
+			   data:{
+				   value_data:'内容'
+			   },
+			   methods:{
+				   onFoucus:function(){
+					   console.log("光标移入----")
+				   }
+			   }
+		   })
+		   
+		   Vue.component('base-input-2',{
+			   inheritAttrs:false,
+		   		props:['value','label'],
+				computed:{
+				
+			    inputListeners: function () {
+			      var vm = this
+			      // `Object.assign` 将所有的对象合并为一个新对象
+			      return Object.assign({},
+			        // 我们从父级添加所有的监听器
+			        this.$listeners,
+			        // 然后我们添加自定义监听器，
+			        // 或覆写一些监听器的行为
+			        {
+			          // 这里确保组件配合 `v-model` 的工作
+			          input: function (event) {
+			            vm.$emit('input', event.target.value)
+			          }
+			        }
+			      )
+			    }
+				},
+		   		template: `
+				<label>
+				  {{ label }}
+		                 <input
+		                        type="text"
+				   			   v-bind:value="value"
+							   v-on="inputListeners"
+				   			   >
+				</label>
+		   		          `
+		   	})
+		      var app3=new Vue({
+		   	   el:'#app3',
+		   	   data:{
+				   label:"光标监听",
+		   		   value_data:'内容'
+		   	   },
+		   	   methods:{
+		   		   onFoucus:function(){
+		   			   console.log("光标移入----")
+		   		   }
+		   	   }
+		      })
+		   
+		   Vue.component('base-input-3',
+		   {
+			   props:['content'],
+			   template: ' <input type="text"  v-bind:value="content" />'
+		   })
+		   var app4=new Vue({
+		    el:'#app4',
+		    data:{
+		   				content:'初始内容'
+		       }
+		    })
+		</script>
+	</body>
+</html>

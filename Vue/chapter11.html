@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<div>
+
+			<div id="app">
+              <component-a></component-a>
+			  <component-c></component-c>
+			  <component-data-b></component-data-b>
+			</div>
+
+            <div id="app2">
+            	<component-part-a></component-part-a>
+				<component-part-b></component-part-b>
+            </div>
+
+		<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+		<script>
+			
+			/////////////////////组件全局注册//////////////////////////
+			var componentPartC={
+					   template:'<p>组件注册——局部注册C</p>'
+			}
+			//全局组件中引用局部组件必须在components中
+		 var componentA=Vue.component('component-a',{
+				template:`
+				<div>
+				<componentPartC></componentPartC>
+				<p>全局声明的组件A</p>
+				</div>
+				`,
+				components:{
+					componentPartC:componentPartC
+				}
+			})
+		var componentB=	Vue.component('component-b',{
+				template:'<p>全局声明的组件B</p>'
+			})
+			//组件中可以引用其他组件 
+			//两种方式
+			Vue.component('component-c',{
+				template:`<div>
+				<p>全局声明的组件C</p>
+				<component-b></component-b>
+				<component-c-a></component-c-a>
+				        </div>`,
+				components:{
+					'component-c-a':componentA
+				}
+			})
+			
+			//vue中引用
+			var app = new Vue({
+				el: '#app',
+				components:{
+					'component-data-b':componentB
+				}
+			})
+			
+			//////////////////////局部定义的组件/////////////////////
+			
+       var componentPartA={
+		   template:'<p>组件注册——局部注册A</p>'
+	   }
+	   //局部组件的引用必须在components中引用
+	   //即便是在局部组件中引用其他全局组件也必须在 components中
+	   var componentPartB={
+		    template:`<div>
+			<p>组件注册——局部注册B</p>
+			<componentA></componentA>
+			<component-a></component-a>
+			</div> `,
+	   		   components:{
+				   'component-a':componentPartA,
+				   componentA:componentA
+			   }
+	   }
+	   var app2=new Vue({
+		   el:'#app2',
+		   components:{
+			   'component-part-a':componentPartA,
+			   'component-part-b':componentPartB
+		   }
+	   })
+		</script>
+	</body>
+</html>

@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+
+			<div id="app">
+                 <module-a >
+					 <div>
+						 <h3>插槽</h3>
+						  <p>插槽内容可以是文本 HTML 其他组件</p>
+						  <p>{{msg}}</p>
+					 </div>
+					  <module-b> </module-b>
+				 </module-a>
+			</div>
+
+	     <div id="app2">
+              <module-c>
+				  <div>
+					  没有<slot></slot>标签则会抛弃
+					   
+				</div>
+				  
+			  </module-c>
+		</div>
+		
+		
+		<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+		<script>
+		Vue.component('module-b',{
+			template:  
+			     `
+				 <div>
+				  插槽 <slot></slot> 必须在其根模板中
+				 </div>
+				 `,
+		})
+            Vue.component('module-a',{
+				template:  
+				     `
+					 <div>
+					 简介：组件之插槽
+					 	 <slot></slot>
+					 </div>
+					 `,
+			})
+			var app = new Vue({
+				el: '#app',
+				data:{
+					msg:'备注信息...'
+				}
+			})
+			
+			
+			Vue.component('module-c',{
+				template: `
+					 <div>
+					     标题
+						 <slot></slot>
+					 </div>
+					 `,
+			})
+			var app2 = new Vue({
+				el: '#app2',
+				
+			})
+		</script>
+	
+	
+	
+	
+	  <div id="app3">
+		  <module-2></module-2>
+	  </div>
+	
+	
+	<script type="text/javascript">
+		Vue.component('module-1',{
+			template:'<button type="button"> <slot>提交(默认)</slot> </button>'
+		})
+		Vue.component('module-2',{
+			template:'<div> <module-1>保存（覆盖）</module-1> </div>'
+		})
+		new Vue({el:'#app3'})
+		
+	</script>
+	
+	
+	<div id="app4">
+		 <module-3>
+			 
+			 <template v-slot:footer>
+			   <p>末尾</p>
+			 			
+			 </template>
+			 <p>段落内容............</p>
+			 <p>段落内容............</p>
+			 <template v-slot:header>
+			     <h1>标题</h1>
+			   </template>
+			 
+			   <p>段落内容............</p>
+			   <p>段落内容............</p>
+		
+		 </module-3>
+	</div>
+	<script type="text/javascript">
+		Vue.component('module-3',{
+			template: `
+			<div class="container">
+			  <header>
+			    <slot name="header"></slot>
+			  </header>
+			  --------------------------------------
+			  <br>
+			  <main>
+			    <slot></slot>
+			  </main>
+			  	  --------------------------------------
+			  	 <br>
+			  <footer>
+			    <slot name="footer"></slot>
+			  </footer>
+			</div>
+			         `
+		})
+		new Vue({el:'#app4'})
+	</script>
+	
+	<div id="app5">
+    <current-name></current-name>
+	<current-user></current-user>
+	</div>
+	<script type="text/javascript">
+		Vue.component('current-name',{
+			data: function(){
+				return  {lastName:'LastName',
+				firstName:'FirstName'}
+			},
+			template:`<span>
+               <slot v-bind:lastName="lastName"
+			         v-bind:firstName="firstName">{{ lastName }}</slot>
+                    </span>`
+		})
+		
+		Vue.component('current-user',{
+			data: function(){
+				 return  {lastName:'LastName1001',
+				         firstName:'FirstName1001'}
+			},
+			template:`<div>
+		       <current-name>{{ firstName }}</current-name>
+			   <p></p>
+			    <current-name> 
+				<template v-slot:default="slotProps">
+			       {{ slotProps.firstName }}
+			     </template>
+				 </current-name>
+			   
+			   <p>{{new Date().toLocaleString()}}</p>
+		            </div>`
+		})
+		new Vue({el:'#app5'})
+	</script>
+	
+	</body>
+</html>
